@@ -14,33 +14,34 @@ editor_options:
 #     colorlinks: false
 #     include-in-header: 
 #       text: |
+bibliography: rallf.bib
 ---
 
 ### To do
 
-Put in dates of harvests. 
+Put in dates of harvests.
 
 Recreate the RFQ equation to understand what will happen to RFQ prediction as NDFD is adjusted
 
-Update this report after we finish scanning 2022 data. We found more data on 7March for 2022-3rd cut. 
+Update this report after we finish scanning 2022 data. We found more data on 7March for 2022-3rd cut.
 
-Validate the predicted forage quality parameters with wet chemsity. If machine is underestimating ADF and NDF, this will explain the high RFV values. The NDFD values need to also be validated. When we predicted NDFD for IWG in FIG the values were reasonable (50%), but for alfalfa they are unreasonable (16%). We need to consult with a lab familiar with NIRS for both conventional and reduced lignin alfalfa. 
+Validate the predicted forage quality parameters with wet chemsity. If machine is underestimating ADF and NDF, this will explain the high RFV values. The NDFD values need to also be validated. When we predicted NDFD for IWG in FIG the values were reasonable (50%), but for alfalfa they are unreasonable (16%). We need to consult with a lab familiar with NIRS for both conventional and reduced lignin alfalfa.
 
 Look at predicted lignin from NIRS?
 
 \newpage
+
 ### Expected results
 
-Alfalfa varieties (HarvXtra) will have lower lignin content and higher NDFD than conventional varieties. The RFV should be higher for HarvXtra varieties. 
+Alfalfa varieties (HarvXtra) will have lower lignin content and higher NDFD than conventional varieties. The RFV should be higher for HarvXtra varieties.
 
 Alfalfa with lower intervals between cuttings (35-day vs 45-day ) will have higher forage quality (RFV, CP).
-
 
 ### Discussion topics
 
 *RFV vs. RFQ*
 
-If we are only making comparisons among alfalfa cuttings, let's use RFV not RFQ. RFQ relies on NDFD, which is much harder to predict with NIRS. There is lot of variability in NDFD in wet chemsity due to variability in rumen fluid composition from donor cows, this variability extends into the NIRS database for NDFD, which reduces the accuracy of the NIRS predictions. RFQ is useful when comparing between mixtures of legumes and grasses, but since we are only making comparisons between alfalfa cuttings, RFV allows us to rely on just ADF and NDF, which NIRS performs better at predicting. 
+If we are only making comparisons among alfalfa cuttings, let's use RFV not RFQ. RFQ relies on NDFD, which is much harder to predict with NIRS. There is lot of variability in NDFD in wet chemsity due to variability in rumen fluid composition from donor cows, this variability extends into the NIRS database for NDFD, which reduces the accuracy of the NIRS predictions. RFQ is useful when comparing between mixtures of legumes and grasses, but since we are only making comparisons between alfalfa cuttings, RFV allows us to rely on just ADF and NDF, which NIRS performs better at predicting.
 
 *NIRS predictions*
 
@@ -48,16 +49,15 @@ Do we trust the predicted values of the NIRS for this experiment?
 
 Is the hay equation sufficient for making comparisons between HarvXtra vs. conventional alfalfa forage quality?
 
-Why is the RFV prediction so high for alfalfa? Did the hail storm in May2022 impact forage quality? Perhaps people put more leaves in the forage quality subsample then stems, causing much higher RFV. 
+Why is the RFV prediction so high for alfalfa? Did the hail storm in May2022 impact forage quality? Perhaps people put more leaves in the forage quality subsample then stems, causing much higher RFV.
 
-Why is neutral detergent digestibility so low? We need to be skeptical of RFQ so long as we are skeptical of NDFD, even though RFQ is correctly correlated with RFV. 
+Why is neutral detergent digestibility so low? We need to be skeptical of RFQ so long as we are skeptical of NDFD, even though RFQ is correctly correlated with RFV.
 
 Why is variance so low in the NIRS prediction? Is there an issue with how data is being read in or processed causing pseudoreplication?
 
 ### Data availability
 
-\href{https://github.com/jpukabeals/nir/tree/main/rallf}{Click Me for Github Repository}
-*https://github.com/jpukabeals/nir/tree/main/rallf*
+\href{https://github.com/jpukabeals/rallf}{Click Me for Github Repository} [*https://github.com/jpukabeals/rallf*](https://github.com/jpukabeals/rallf){.uri}
 
 ```{r, echo=F, include=F}
 knitr::opts_chunk$set(
@@ -124,8 +124,7 @@ key3 %>%
 
 ```
 
-
-As seen in tables, we have missing $24+24+1 = 85$ data points. The two sets of 24 data points are for the first cut at rosemount in 2022, which have not been located as of 15Mar2023. 
+As seen in tables, we have missing $24+24+1 = 85$ data points. The two sets of 24 data points are for the first cut at rosemount in 2022, which have not been located as of 15Mar2023.
 
 \newpage
 
@@ -411,6 +410,7 @@ dat1 %>%
 ```
 
 \newpage
+
 ```{r FQ by variety}
 
 dat1 %>% 
@@ -508,7 +508,6 @@ dat1 %>%
 
 We expect an NDF of around 40%, we observed an NDF of `r round(mean(dat1$NDF),0)`
 
-
 ```{r}
 dat1 %>% 
   ggplot(aes(NDFD)) +
@@ -524,7 +523,7 @@ For neutral detergent digestibility over 48 hours, we expect values near 50%, we
 
 ## Relative forage quality
 
-Since relative feed value and relative forage quality are strongly correlated, the results of the anlaysis are the same. 
+Since relative feed value and relative forage quality are strongly correlated, the results of the anlaysis are the same.
 
 ```{r echo=T}
 
@@ -553,10 +552,9 @@ dat1 %>%
   labs(y="RFQ")
 ```
 
-Similar pattern across years and sites; RFQ is similar for the first cut and then the second cut the RFQ is lower for the 45-day cuts than the 35-day cuts. 
+Similar pattern across years and sites; RFQ is similar for the first cut and then the second cut the RFQ is lower for the 45-day cuts than the 35-day cuts.
 
 Why is variance so low? I can barely see error bars
-
 
 ```{r checking variance, echo=T}
 # is their psuedoreplication/duplication happening causing variance to be low?
@@ -587,7 +585,7 @@ dat1 %>%
   labs(y="RFQ + Standard deviation")
 ```
 
-There is simply a large difference between standard error and standard deviation, likely because n() is larger than usual (n=24) so standard error really reduces the visual representation of variance. 
+There is simply a large difference between standard error and standard deviation, likely because n() is larger than usual (n=24) so standard error really reduces the visual representation of variance.
 
 \newpage
 
@@ -619,16 +617,17 @@ dat1 %>%
   labs(y="CP")
 ```
 
-Similar pattern across years and sites, same as RFQ; CP is similar for the first cut and then the second cut the CP is lower for the 45-day cuts than the 35-day cuts. 
+Similar pattern across years and sites, same as RFQ; CP is similar for the first cut and then the second cut the CP is lower for the 45-day cuts than the 35-day cuts.
 
-Same as with RFQ, summarizing with standard error shows much less variation around means than standard deviation. 
+Same as with RFQ, summarizing with standard error shows much less variation around means than standard deviation.
 
 \newpage
+
 # Diving deeper
 
 ## Relative feed value and ADF
 
-RFV is the only parameter where we are outside of our expected range. We expect around 150 and we are averaging 200. We have some RFV values over 300. 
+RFV is the only parameter where we are outside of our expected range. We expect around 150 and we are averaging 200. We have some RFV values over 300.
 
 This may be due to an issue with the equation
 
@@ -649,8 +648,7 @@ $DMI.rfv = 120/NDF$
 Relative Forage Value\
 $RFV = (88.9-(0.779*ADF))*(120/NDF)/1.29$
 
-These equations are correct. 
-
+These equations are correct.
 
 ```{r testing RFV equation, include=F}
 
@@ -708,20 +706,21 @@ dat1 %>%
   
 ```
 
-The forage samples with the highest RFV are from st paul in 2022. The ADF is 16% and the NDF is 20%. A forage sample with these values would have a relative feed value of 355, so the equation is not incorrect. The question is whether alfalfa can be this high quality. 
+The forage samples with the highest RFV are from st paul in 2022. The ADF is 16% and the NDF is 20%. A forage sample with these values would have a relative feed value of 355, so the equation is not incorrect. The question is whether alfalfa can be this high quality.
 
-Can an alfalfa sample be 16% ADF and 20% NDF? 
+Can an alfalfa sample be 16% ADF and 20% NDF?
 
-It's notable that the crude protein is also very high, 29%, where we would normally expect 20%. This supports the idea that this was young vegetative leafy alfalfa. 
+It's notable that the crude protein is also very high, 29%, where we would normally expect 20%. This supports the idea that this was young vegetative leafy alfalfa.
 
-It seems very possible that our predicted ADF and NDF values simply need a bias adjustment. If this is the case, they can still be used to determine relative differences between treatments, but will need a wet chemistry calibration before they can be used to determine the actual ADF or NDF values. 
+It seems very possible that our predicted ADF and NDF values simply need a bias adjustment. If this is the case, they can still be used to determine relative differences between treatments, but will need a wet chemistry calibration before they can be used to determine the actual ADF or NDF values.
 
 \newpage
-## NDFD 
 
-Neutral detergent fiber digestibility estimates the amount of digestion that will occur within the rumen and this varies by ruminant. The most common durations are 24 hours for cattle, 30 hours for sheep goats and horses, 48 hours for swine. There are also very long digestions (72, 120 or 240), which are meant to determine how much fiber is indigestible. 
+## NDFD
 
-We predict neutral detergent fiber digestibility over 48 hours. This is still an appropaite duration, but it can be harder to detect differences in forage digestibility with longer durations. We expect an NDFD range of 30-50% for alfalfa based on data from Dairyland and Forage Genetics International. 
+Neutral detergent fiber digestibility estimates the amount of digestion that will occur within the rumen and this varies by ruminant. The most common durations are 24 hours for cattle, 30 hours for sheep goats and horses, 48 hours for swine. There are also very long digestions (72, 120 or 240), which are meant to determine how much fiber is indigestible.
+
+We predict neutral detergent fiber digestibility over 48 hours. This is still an appropaite duration, but it can be harder to detect differences in forage digestibility with longer durations. We expect an NDFD range of 30-50% for alfalfa based on data from Dairyland and Forage Genetics International.
 
 ```{r expected lignin and NDFD values}
 
@@ -845,18 +844,17 @@ expand_grid(
 
 ```
 
-We observed around 15% NDFD, which very low. 
+We observed around 15% NDFD, which very low.
 
 We expected as time between cuttings decreased (35-day harvest schedule), NDFD would increase, however we observed a decrease in NDFD for both the HarvXtra and Conventional varieties
 
-We expected greater NDFD in HarvXtra vs conventional, but observed lower NDFD. 
+We expected greater NDFD in HarvXtra vs conventional, but observed lower NDFD.
 
-One possible explanation is that our NDFD prediction needs a new bias or perhaps a new equation for alfalfa NDFD as it differs from grass NDFD. 
+One possible explanation is that our NDFD prediction needs a new bias or perhaps a new equation for alfalfa NDFD as it differs from grass NDFD.
 
-Another explanation is that we need a different equation for HarvXtra alfalfa vs. conventional alfalfa. 
+Another explanation is that we need a different equation for HarvXtra alfalfa vs. conventional alfalfa.
 
 The predicted NIRS values for NDFD should be viewed with skepticism.
-
 
 ```{r}
 
@@ -891,131 +889,100 @@ dat1 %>%
   
 ```
 
-Yes, RFV and RFQ are strongly positively correlated as they should be. 
+Yes, RFV and RFQ are strongly positively correlated as they should be.
 
-Other forage quality parameters are correlated as expected with the exception of NDFD. 
+Other forage quality parameters are correlated as expected with the exception of NDFD.
 
-As forages mature, CP should decrease and NDFD should decrease, therefore they should be positively correlated, but instead they are negatively correlated. Furthermore, as NDFD increases RFQ should increase, but they are also negatively correlated. 
+As forages mature, CP should decrease and NDFD should decrease, therefore they should be positively correlated, but instead they are negatively correlated. Furthermore, as NDFD increases RFQ should increase, but they are also negatively correlated.
 
 \newpage
+
 ### RFQ
 
-Let's see how RFQ values would be if NDFD was near 60 instead of 6.
+RFQ should be postively correlated with RFv and have a close relationship
 
-If they are closer to 200, then this would mean we likely need to bias the NDF and ADF (they are too low) and bias the NDFD (too low as well). When we increase these values, the RFV and RFQ will go down to more normal levels
+$$
+RFQ = 1.2*RFV - 32.4
+$$
 
+[@Undersander2002]
 
-```{r, include=F}
-print(calc.rfq.rfv.legume)
+```{r}
 
-```
-
-#### 13March investigation
-
-We are not sure how rallf_nirData_20Feb2023 was generated. It contains 502 observations. I know I used excel at some point. 
-
-We know that nir_import-tidy_7Feb2023.R is correctly calculating on a DM basis, but only predicting 246 observations.
-
-We used original compiled reports to filter by sample Id to confirm that the CP and ADF values are correctly calculating on a DM basis. The protein and ndf48h are somehow copied from CP and NDFD and do not represent the as is values, but are also on a DM basis.  
-
-We are getting all hay after 15Feb2023
-
-```{r, eval=F}
-
-dat2 %>% 
-  # glimpse()
-  slice(1)
+lm(
+  rfq.legume~rfv,dat
+)
 
 dat %>% 
-  # colnames
-  filter(code == 210228)
-
-compiledReports %>% 
-  # colnames()
-  filter(`Sample ID` == 210228) %>% 
-  View()
-
-
+  ggplot(aes(rfv,rfq.legume)) +
+  geom_point() +
+  geom_smooth(method = "lm",se=F) +
+  labs(
+    caption = "RFQ = 0.7*RFV -1.4"
+  )
 ```
 
+We observe a relationship of $RFV = 0.7*RFV - 1.4$
 
-Tried and failed to recreate RFQ equation
-
-```{r, include=F}
-# rfq.legume=DMI.legume*TDN.legume/1.23,
-# DMI.legume=(120/NDF) + (NDFD - 45) * .374/1350*100,
-# TDN.legume=(NFC*.98)+(CP*.93)+(FA*.97*2.25)+(NDFn*NDFD/100)-7,
-# NFC=100-((0.93*NDF)+CP+EE+Ash),
-# NDFn=NDF*0.93, 
-
-
-NDF <- 30
-CP <- 20
-EE <- 2.05
-Ash <- mean(dat$Ash)
-FA <- 1.05
-
-NDFD <- mean(dat$NDFD)
-NDFD <- 7
-
-
-(120/NDF) + (NDFD - 45) * .374/1350*100*(100-((0.93*NDF)+CP+EE+Ash)*.98)+(CP*.93)+(FA*.97*2.25)+(NDF*0.93*NDFD/100)-7/1.23
-
-# this equation seems to be wrong, because it predicts RFQ of 324, but it should be near 130. Not sure what is problem, but RFQ has a problem!
-
-(120/NDF) + (NDFD - 45) * .374/1350*100*(100-((0.93*NDF)+CP+EE+Ash)*.98)+(CP*.93)+(FA*.97*2.25)+(NDF*0.93*NDFD/100)-7/1.23
-
-```
-
+This indicates there is an issue with how we are estimating some of the forage quality parameters that comprise RFv and RFQ
 
 ```{r}
+RFQ.pred <- function(RFV){
+  1.2*RFV - 32.4
+}
+RFQ.pred(162)
 
-# dat %>% 
-#   slice(1) %>% 
-#   View()
-
-CP=18
-ADF = 20
-NDF =30
-NDFD =10
-NDFD = 60
-DM = 90
-EE = 2
-FA = 1
-Ash = 10
-
-100-((0.93*NDF)+CP+EE+Ash) -> NFC
-
-NDF*.93 -> NDFn
-
-# NDFDp
-22.7+0.664*NDFD -> NDFDp
-
-# TDN.legume
-(NFC*.98) + (CP*.93) + (FA*.97*2.25) + (NDFn*NDFD/100) - 7 -> TDN.legume
-
-# DMI.legume
-(120/NDF) + (NDFD-45) * 0.374/1350*100 -> DMI.legume
-
-# rfq.legume
-DMI.legume * TDN.legume/1.23
-
-# 
+range(dat$NDFD)
 
 ```
 
+We observed low ADF and NDF values, but they were within an acceptable range. The RFV calculation (205), however, was outside the expected range of 100-200. When we compared our NIRS prediction with Europe, we underpredicted ADF and NDF. I suspect we are overestimating RFV by underestimating ADF and NDf
 
-let's see what we are shooting for
+Our NDFD range is also low. GET EXPECTED VALUES. We observe a range of 4 to 31. We think it should be about double that. 
+
+Let's see how the RFV-RFQ relationship changes when we double NDFD and increase ADF and NDF by 25%. 
+
 ```{r}
+print(calc.rfq.rfv)
 
-dat$rfq.legume %>% 
-  range() %>% 
-  round(0)
+dat %>% 
+  ggplot(aes(NDFD*2)) +
+  stat_bin()
+
+dat %>% 
+mutate(
+  ADF=ADF*1.2,
+  NDF=NDF*1.2,
+  NDFD=NDFD*2,
+           NFC=100-((0.93*NDF)+CP+EE+Ash),
+           NDFn=NDF*0.93, 
+           NDFDp=22.7+0.664*NDFD,
+           TDN.legume=(NFC*.98)+(CP*.93)+(FA*.97*2.25)+(NDFn*NDFD/100)-7,
+           DMI.legume=(120/NDF) + (NDFD - 45) * .374/1350*100,
+           TDN.grass=(NFC*.98)+(CP*.87)+(FA*.97*2.25)+(NDFn*NDFDp/100)-10,
+           DMI.grass=(-2.318)+(.442*CP)-(.01*CP^2)-(.0638*TDN.grass)+(.000922*TDN.grass^2)+
+             (.18*ADF)-(0.00196*ADF^2)-(0.00529*CP*ADF),
+           rfq.legume=DMI.legume*TDN.legume/1.23,
+           DDM.rfv = 88.9-(.779*ADF),
+           DMI.rfv = 120/NDF,
+           rfv= DDM.rfv*DMI.rfv/1.29) %>% 
+  summarise(rfq = mean(rfq.legume), rfv = mean(rfv))
+  # ggplot(aes(rfq.legume)) +
+  # stat_bin() +
+  # labs(caption="RFQ if NDFD*2")
+
+# NDFD normal = 139 rfq
+# NDFD double = 174 rfq
+  
+# RFV normal = 205
+# ADF and NDF *1.2 = 162
+
+
 
 ```
 
 \newpage
+
 # A review of RFV and RFQ
 
-In a similar way you want to know how much N is in a fertilizer, you want to know how much digestible food is in a forage. The old school way was relative feed value (RFV), which is simply a measure of fiber content. The higher the fiber (ADF and NDf), the lower the RFV, meaning there isn't as much digestible food in the forage. Among alfalfa cuttings that are both 1 ton of dry matter, buy the one with the higher RFv because it's more dense in digestible energy. The forage with a lower RFv has more undigestible lignin that's basically trash that you have to transport, feed, takes up space in the cows stomach during digestion and then becomes waste. So RFV is just a function of ADF and NDF and it works great at making comparisons between multiple cuttings of the same hay field. The problem with RFV is when you try to make a comparison between an alfalfa hay and an alfalfa-grass mixture. The problem is that grasses have more fiber (ADF and NDF), but their fiber is more digestible. So grasses get lower RFV values than they deserve.  
-
+In a similar way you want to know how much N is in a fertilizer, you want to know how much digestible food is in a forage. The old school way was relative feed value (RFV), which is simply a measure of fiber content. The higher the fiber (ADF and NDf), the lower the RFV, meaning there isn't as much digestible food in the forage. Among alfalfa cuttings that are both 1 ton of dry matter, buy the one with the higher RFv because it's more dense in digestible energy. The forage with a lower RFv has more undigestible lignin that's basically trash that you have to transport, feed, takes up space in the cows stomach during digestion and then becomes waste. So RFV is just a function of ADF and NDF and it works great at making comparisons between multiple cuttings of the same hay field. The problem with RFV is when you try to make a comparison between an alfalfa hay and an alfalfa-grass mixture. The problem is that grasses have more fiber (ADF and NDF), but their fiber is more digestible. So grasses get lower RFV values than they deserve.
