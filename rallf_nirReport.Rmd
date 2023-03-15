@@ -940,20 +940,20 @@ We observed low ADF and NDF values, but they were within an acceptable range. Th
 
 Our NDFD range is also low. GET EXPECTED VALUES. We observe a range of 4 to 31. We think it should be about double that. 
 
-Let's see how the RFV-RFQ relationship changes when we double NDFD and increase ADF and NDF by 25%. 
+Let's see how the RFV-RFQ relationship changes when we almost triple NDFD and increase ADF and NDF by 20%. 
 
 ```{r}
 print(calc.rfq.rfv)
 
 dat %>% 
-  ggplot(aes(NDFD*2)) +
+  ggplot(aes(NDFD*2.8)) +
   stat_bin()
 
 dat %>% 
 mutate(
   ADF=ADF*1.2,
   NDF=NDF*1.2,
-  NDFD=NDFD*2,
+  NDFD=NDFD*2.8,
            NFC=100-((0.93*NDF)+CP+EE+Ash),
            NDFn=NDF*0.93, 
            NDFDp=22.7+0.664*NDFD,
@@ -977,9 +977,10 @@ mutate(
 # RFV normal = 205
 # ADF and NDF *1.2 = 162
 
-
-
 ```
+
+
+Reasonable values!
 
 \newpage
 
