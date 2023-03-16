@@ -19,15 +19,13 @@ bibliography: rallf.bib
 
 ### To do
 
+Validate the predicted forage quality parameters with wet chemistry. When we predicted NDFD for IWG in FIG the values were reasonable (50%), but for alfalfa they are unreasonable (16%). We need to consult with a lab familiar with NIRS for both conventional and reduced lignin alfalfa. 
+
 Put in dates of harvests.
 
-Recreate the RFQ equation to understand what will happen to RFQ prediction as NDFD is adjusted
-
-Update this report after we finish scanning 2022 data. We found more data on 7March for 2022-3rd cut.
-
-Validate the predicted forage quality parameters with wet chemsity. If machine is underestimating ADF and NDF, this will explain the high RFV values. The NDFD values need to also be validated. When we predicted NDFD for IWG in FIG the values were reasonable (50%), but for alfalfa they are unreasonable (16%). We need to consult with a lab familiar with NIRS for both conventional and reduced lignin alfalfa.
-
 Look at predicted lignin from NIRS?
+
+Was 3rd cut in st paul 2022 somehow switched between 35 and 45 day intensity. It's throwing off the analysis. 
 
 \newpage
 
@@ -51,7 +49,7 @@ Is the hay equation sufficient for making comparisons between HarvXtra vs. conve
 
 Why is the RFV prediction so high for alfalfa? Did the hail storm in May2022 impact forage quality? Perhaps people put more leaves in the forage quality subsample then stems, causing much higher RFV.
 
-Why is neutral detergent digestibility so low? We need to be skeptical of RFQ so long as we are skeptical of NDFD, even though RFQ is correctly correlated with RFV.
+Why is neutral detergent digestibility so low? We need to be skeptical of RFQ so long as we are skeptical of NDFD.
 
 Why is variance so low in the NIRS prediction? Is there an issue with how data is being read in or processed causing pseudoreplication?
 
@@ -521,23 +519,23 @@ For neutral detergent digestibility over 48 hours, we expect values near 50%, we
 
 # Analysis
 
-## Relative forage quality
+## Relative feed value
 
-Since relative feed value and relative forage quality are strongly correlated, the results of the anlaysis are the same.
+Since relative feed value and relative forage quality are strongly correlated, the results of the analysis tend to be the same.
 
 ```{r echo=T}
 
 dat1 %>% 
   lm(
-    rfq.legume~site*year*variety*intensity*cut,.
+    rfv~site*year*variety*intensity*cut,.
   ) %>% 
   anova() %>%
   filter(`Pr(>F)` < 0.05)
-# site:year:intensity
 # year:intensity:cut
+# site:year:cut
+# site:year:intensity
 
 # no effect from variety
-# some effect from intensity
 
 ```
 
@@ -545,18 +543,30 @@ dat1 %>%
 
 ```{r}
 dat1 %>% 
-  ggplot(aes(cut,rfq.legume,
-             col=intensity)) +
-  stat_summary(  ) +
+  ggplot(aes(cut,rfv,
+             col=intensity,
+             fill=intensity)) +
+  stat_summary(
+    geom="bar",
+    position=position_dodge(.5),
+    width = .5,
+    col=1
+  ) +
+  stat_summary(
+    geom="errorbar",
+    position=position_dodge(.5),
+    width = .3,
+    col=1
+  ) +
   facet_wrap(~site*year) +
-  labs(y="RFQ")
+  labs(y="RFV")
 ```
 
-Similar pattern across years and sites; RFQ is similar for the first cut and then the second cut the RFQ is lower for the 45-day cuts than the 35-day cuts.
+Similar pattern across years and sites; RFV is similar for the first cut and then the second cut the RFV is lower for the 45-day cuts than the 35-day cuts. The third cut at St Paul in 2022 is unexpected, what could explain this?
 
-Why is variance so low? I can barely see error bars
+Why is variance so low? Standard error bars are barely visible. 
 
-```{r checking variance, echo=T}
+```{r checking variance, echo=T, include=F}
 # is their psuedoreplication/duplication happening causing variance to be low?
 # this could be a mistake I made during a left_join()
 dat1 %>% 
@@ -575,14 +585,25 @@ dat1 %>%
 Let's look at standard deviation instead of standard error
 
 ```{r}
-dat1 %>% 
-  ggplot(aes(cut,rfq.legume,
-             col=intensity)) +
+dat1 %>%
+  ggplot(aes(cut, rfv,
+             col = intensity,
+             fill = intensity)) +
   stat_summary(
-    fun.data = mean_sdl
+    geom = "bar",
+    position = position_dodge(.5),
+    width = .5,
+    col = 1
   ) +
-  facet_wrap(~site*year) +
-  labs(y="RFQ + Standard deviation")
+  stat_summary(
+    fun.data = mean_sdl,
+    geom = "errorbar",
+    position = position_dodge(.5),
+    width = .3,
+    col = 1
+  ) +
+  facet_wrap( ~ site * year) +
+  labs(y = "RFV + Standard deviation")
 ```
 
 There is simply a large difference between standard error and standard deviation, likely because n() is larger than usual (n=24) so standard error really reduces the visual representation of variance.
@@ -602,7 +623,6 @@ dat1 %>%
 # 4-way interaction
 
 # no effect from variety
-# some effect from intensity
 
 ```
 
@@ -611,8 +631,13 @@ dat1 %>%
 ```{r}
 dat1 %>% 
   ggplot(aes(cut,CP,
-             col=intensity)) +
-  stat_summary() +
+             col=intensity,
+             fill=intensity)) +
+  stat_summary(
+    geom="bar",
+    position = position_dodge(.5),
+    width = .5,
+    col=1) +
   facet_wrap(~site*year) +
   labs(y="CP")
 ```
@@ -720,7 +745,7 @@ It seems very possible that our predicted ADF and NDF values simply need a bias 
 
 Neutral detergent fiber digestibility estimates the amount of digestion that will occur within the rumen and this varies by ruminant. The most common durations are 24 hours for cattle, 30 hours for sheep goats and horses, 48 hours for swine. There are also very long digestions (72, 120 or 240), which are meant to determine how much fiber is indigestible.
 
-We predict neutral detergent fiber digestibility over 48 hours. This is still an appropaite duration, but it can be harder to detect differences in forage digestibility with longer durations. We expect an NDFD range of 30-50% for alfalfa based on data from Dairyland and Forage Genetics International.
+We predict neutral detergent fiber digestibility over 48 hours because this is used for the RFQ equation [@Undersander2002]. We expect an NDFD range of 30-50% for alfalfa based on data from Dairyland and Forage Genetics International, but NDFD can range up to 70%[@Hoffman2001].
 
 ```{r expected lignin and NDFD values}
 
@@ -850,11 +875,11 @@ We expected as time between cuttings decreased (35-day harvest schedule), NDFD w
 
 We expected greater NDFD in HarvXtra vs conventional, but observed lower NDFD.
 
-One possible explanation is that our NDFD prediction needs a new bias or perhaps a new equation for alfalfa NDFD as it differs from grass NDFD.
+One possible explanation is that our NDFD prediction needs a new equation for alfalfa NDFD as it differs from grass NDFD.
 
 Another explanation is that we need a different equation for HarvXtra alfalfa vs. conventional alfalfa.
 
-The predicted NIRS values for NDFD should be viewed with skepticism.
+The predicted NIRS values for NDFD should be viewed with skepticism, and it likely cannot be fixed with a bias. 
 
 ```{r}
 
@@ -864,6 +889,9 @@ dat1 %>%
     max(NDFD),
     min(NDFD),
     median(NDFD)
+  ) %>% 
+  mutate_all(
+    ~round(.x,0)
   ) %>% 
   knitr::kable(
     caption = "Neutral detergent digestibility ranged from 4 to 31%. This is very low and should be validated with wet chemistry"
@@ -899,12 +927,11 @@ As forages mature, CP should decrease and NDFD should decrease, therefore they s
 
 ### RFQ
 
-RFQ should be postively correlated with RFv and have a close relationship
+RFQ should be positively correlated with RFV and have a close relationship (slope near 1)
 
 $$
 RFQ = 1.2*RFV - 32.4
 $$
-
 [@Undersander2002]
 
 ```{r}
@@ -924,36 +951,25 @@ dat %>%
 
 We observe a relationship of $RFV = 0.7*RFV - 1.4$
 
-This indicates there is an issue with how we are estimating some of the forage quality parameters that comprise RFv and RFQ
+This indicates there is an issue with how we are estimating some of the forage quality parameters that comprise RFV and RFQ
 
-```{r}
+```{r include=F}
 RFQ.pred <- function(RFV){
   1.2*RFV - 32.4
 }
-RFQ.pred(162)
-
-range(dat$NDFD)
-
+RFQ.pred(187)
 ```
 
-We observed low ADF and NDF values, but they were within an acceptable range. The RFV calculation (205), however, was outside the expected range of 100-200. When we compared our NIRS prediction with Europe, we underpredicted ADF and NDF. I suspect we are overestimating RFV by underestimating ADF and NDf
+#### ADF NDF underestimation
 
-Our NDFD range is also low. GET EXPECTED VALUES. We observe a range of 4 to 31. We think it should be about double that. 
+We observed low ADF and NDF values, but they were within an acceptable range. The RFV prediction of 205, however, was outside the expected range of 100-200. When we compared our NIRS prediction with Europe, we estimated lower ADF and NDF from the same sorghum sudangrass. If we simply increased ADF by `r 2/32*100`% and NDF by `r 5/60*100`%, the RFV goes from 205 to 187 and is within the acceptable range. 
 
-Let's see how the RFV-RFQ relationship changes when we almost triple NDFD and increase ADF and NDF by 20%. 
-
-```{r}
-print(calc.rfq.rfv)
-
-dat %>% 
-  ggplot(aes(NDFD*2.8)) +
-  stat_bin()
-
+```{r include=F}
 dat %>% 
 mutate(
-  ADF=ADF*1.2,
-  NDF=NDF*1.2,
-  NDFD=NDFD*2.8,
+  ADF=ADF*1.065,
+  NDF=NDF*1.083,
+  # NDFD=NDFD*2.8,
            NFC=100-((0.93*NDF)+CP+EE+Ash),
            NDFn=NDF*0.93, 
            NDFDp=22.7+0.664*NDFD,
@@ -967,20 +983,99 @@ mutate(
            DMI.rfv = 120/NDF,
            rfv= DDM.rfv*DMI.rfv/1.29) %>% 
   summarise(rfq = mean(rfq.legume), rfv = mean(rfv))
-  # ggplot(aes(rfq.legume)) +
-  # stat_bin() +
-  # labs(caption="RFQ if NDFD*2")
+```
 
-# NDFD normal = 139 rfq
-# NDFD double = 174 rfq
-  
-# RFV normal = 205
-# ADF and NDF *1.2 = 162
+While increasing the ADF and NDF values brings down the RFV to an acceptable range, it also decreases the RFQ from 139 to 121. The relationship of $RFQ = 0.7*RFV-1.4$ remains...
+
+#### NDFD underestimation
+
+```{r include = F}
+range(dat$NDFD)
+mean(dat$NDFD)
+50/16
+```
+
+Our NDFD range is also low. We expect a range of 30 to 70 [@Hoffman2001, @Undersander2016], but we observe a range of 4 to 31 with a mean of 16. We should have a mean of 50. 
+
+Let's see how the RFV-RFQ relationship changes when we shift the NDFD mean to 50 $NDFD*3.125$ and keep our adjustment of ADF $ADF*1.0625$ and NDF $NDF*1.083$. 
+
+
+```{r, include=F}
+print(calc.rfq.rfv)
+
+dat %>% 
+mutate(
+  ADF=ADF*1.065,
+  NDF=NDF*1.083,
+  NDFD=NDFD*3.125,
+           NFC=100-((0.93*NDF)+CP+EE+Ash),
+           NDFn=NDF*0.93, 
+           NDFDp=22.7+0.664*NDFD,
+           TDN.legume=(NFC*.98)+(CP*.93)+(FA*.97*2.25)+(NDFn*NDFD/100)-7,
+           DMI.legume=(120/NDF) + (NDFD - 45) * .374/1350*100,
+           TDN.grass=(NFC*.98)+(CP*.87)+(FA*.97*2.25)+(NDFn*NDFDp/100)-10,
+           DMI.grass=(-2.318)+(.442*CP)-(.01*CP^2)-(.0638*TDN.grass)+(.000922*TDN.grass^2)+
+             (.18*ADF)-(0.00196*ADF^2)-(0.00529*CP*ADF),
+           rfq.legume=DMI.legume*TDN.legume/1.23,
+           DDM.rfv = 88.9-(.779*ADF),
+           DMI.rfv = 120/NDF,
+           rfv= DDM.rfv*DMI.rfv/1.29) %>% 
+  # summarise(rfq = mean(rfq.legume), rfv = mean(rfv))
+  # lm(rfq.legume~rfv,.)
+  ggplot(aes(rfv,rfq.legume)) +
+  geom_point() +
+  geom_smooth(method = "lm", se=F) +
+  labs(
+    caption = "After adjusting ADF NDF and NDFD"
+  )
 
 ```
 
+With an RFV of 187, we would expect an RFQ of 192 and we predict 200. Much better! By multiplying NDFD by 3.125, we are still not fixing the issue of NDFD not being positively correlated with CP, indicating a larger problem with it's prediction. More importantly, the linear relationship is ever worse now at $RFQ = 0.34*RFV + 193$
 
-Reasonable values!
+At what NDFD value could we achieve the slope closest to 1.2*RFV while keeping the ADF and NDF adjustment?
+
+```{r include=F}
+dat %>% 
+mutate(
+  ADF=ADF*1.065,
+  NDF=NDF*1.083,
+  NDFD=NDFD*2,
+  EE=3,
+  CP = CP*1.25,
+           NFC=100-((0.93*NDF)+CP+EE+Ash),
+           NDFn=NDF*0.93, 
+           NDFDp=22.7+0.664*NDFD,
+           TDN.legume=(NFC*.98)+(CP*.93)+(FA*.97*2.25)+(NDFn*NDFD/100)-7,
+           DMI.legume=(120/NDF) + (NDFD - 45) * .374/1350*100,
+           TDN.grass=(NFC*.98)+(CP*.87)+(FA*.97*2.25)+(NDFn*NDFDp/100)-10,
+           DMI.grass=(-2.318)+(.442*CP)-(.01*CP^2)-(.0638*TDN.grass)+(.000922*TDN.grass^2)+
+             (.18*ADF)-(0.00196*ADF^2)-(0.00529*CP*ADF),
+           rfq.legume=DMI.legume*TDN.legume/1.23,
+           DDM.rfv = 88.9-(.779*ADF),
+           DMI.rfv = 120/NDF,
+           rfv= DDM.rfv*DMI.rfv/1.29) %>% 
+  # summarise(rfq = mean(rfq.legume), rfv = mean(rfv))
+  lm(rfq.legume~rfv,.)
+  # ggplot(aes(rfv,rfq.legume)) +
+  # geom_point() +
+  # geom_smooth(method = "lm", se=F) +
+  # labs(
+  #   caption = "After adjusting ADF NDF and NDFD"
+  # )
+```
+
+We cannot achieve a slope of $RFQ = 1.2RFV$ by simply adjusting NDFD. 
+
+What would it take? It's not clear but NDFD needs to be addressed. Simply multiplying NDFD is too crude and we likely need to improve our equation for NDFD prediction. Adjustments of ADF and NDF shift both RFQ and RFV, adjustments of CP and EE do not seem to change relationship greatly.  
+
+Another step that could be taken would be to note the mahalanoibis distances for NDFD prediction for RALLF. We would expect them to be above 5, indicating a warning. 
+
+#### Extractable ether
+
+Extractable ether in our equation is set at 2.05 as a constant. But according to @Undersander2016, extractable ether ranges from 1 to 4 and averages at 3 for alfalfa/grass forage.
+
+Adjusting extractable ether does not have a large effect on predicted RFQ or RFV, so it doesn't really matter. Just a heads up. 
 
 \newpage
 
