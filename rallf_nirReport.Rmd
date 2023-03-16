@@ -5,8 +5,8 @@ date: "2023 February"
 author: "Jesse Puka-Beals"
 output:
   # word_document
-  # pdf_document:
-    # toc: true
+  pdf_document:
+    toc: true
 editor_options: 
   chunk_output_type: console
 # format: 
@@ -25,7 +25,7 @@ Put in dates of harvests.
 
 Look at predicted lignin from NIRS?
 
-Was 3rd cut in st paul 2022 somehow switched between 35 and 45 day intensity. It's throwing off the analysis. 
+Investigate the 3rd cut in st paul 2022; was it somehow switched between 35 and 45 day intensity?
 
 \newpage
 
@@ -925,7 +925,7 @@ As forages mature, CP should decrease and NDFD should decrease, therefore they s
 
 \newpage
 
-### RFQ
+## RFQ
 
 RFQ should be positively correlated with RFV and have a close relationship (slope near 1)
 
