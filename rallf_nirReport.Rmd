@@ -6,8 +6,8 @@ author: "Jesse Puka-Beals"
 output:
   # word_document:
     # reference_docx: "word_style.docx"
-  # pdf_document:
-    # toc: true
+  pdf_document:
+    toc: true
 editor_options: 
   chunk_output_type: console
 # format: 
@@ -35,11 +35,11 @@ Alfalfa with lower intervals between cuttings (35-day vs 45-day ) will have high
 
 ### Discussion topics
 
-*RFV vs. RFQ*
+#### RFV vs. RFQ
 
 If we are only making comparisons among alfalfa cuttings, let's use RFV not RFQ. RFQ relies on NDFD, which is much harder to predict with NIRS. There is lot of variability in NDFD in wet chemsity due to variability in rumen fluid composition from donor cows, this variability extends into the NIRS database for NDFD, which reduces the accuracy of the NIRS predictions. RFQ is useful when comparing between mixtures of legumes and grasses, but since we are only making comparisons between alfalfa cuttings, RFV allows us to rely on just ADF and NDF, which NIRS performs better at predicting.
 
-*NIRS predictions*
+#### NIRS prediction
 
 Do we trust the predicted values of the NIRS for this experiment?
 
@@ -137,9 +137,9 @@ dat %>%
 
 # Predicting forage quality parameters with NIRS
 
-We are predicting alfalfa forage quality parameters using near infrared scanning with a generalist equation designed for all hay. Some labs use an alfalfa equation and some labs have different alfalfa equations for conventional vs. reduced lignin alfalfa. All predictions should be validated with wet chemistry, though NIRS predictions without recent validation can still be useful in estimating relative differences between treatments.
+We are predicting alfalfa forage quality parameters using near infrared scanning with a generalist equation designed for all hay. Some labs use an alfalfa equation and some labs have different alfalfa equations for conventional vs. reduced lignin alfalfa. All predictions should be validated with wet chemistry. NIRS predictions without recent validation can still be useful in estimating relative differences between treatments.
 
-Soil contamination can also cause issues with forage quality predictions.
+Soil contamination can cause issues with forage quality predictions.
 
 Expected forage quality parameters for alfalfa were easy to obtain for CP ADF NDF and RFV, they were not easy to obtain for RFQ. In general, I found that RFQ can range from 50 to 250, with most data between 100 and 200 and an average of 150.
 
