@@ -4,9 +4,10 @@ subtitle: "preliminary report"
 date: "2023 February"
 author: "Jesse Puka-Beals"
 output:
-  # word_document
-  pdf_document:
-    toc: true
+  # word_document:
+    # reference_docx: "word_style.docx"
+  # pdf_document:
+    # toc: true
 editor_options: 
   chunk_output_type: console
 # format: 
@@ -15,17 +16,14 @@ editor_options:
 #     include-in-header: 
 #       text: |
 bibliography: rallf.bib
+csl: asa-cssa-sssa.csl
 ---
 
 ### To do
 
-Validate the predicted forage quality parameters with wet chemistry. When we predicted NDFD for IWG in FIG the values were reasonable (50%), but for alfalfa they are unreasonable (16%). We need to consult with a lab familiar with NIRS for both conventional and reduced lignin alfalfa. 
+Validate the predicted forage quality parameters with wet chemistry. When we predicted NDFD for IWG in FIG the values were reasonable (50%), but for alfalfa they are unreasonable (16%). For example, @Grev2017 observed NDFD range of 33-45% for a 30 day cutting interval.
 
-Put in dates of harvests.
-
-Look at predicted lignin from NIRS?
-
-Investigate the 3rd cut in st paul 2022; was it somehow switched between 35 and 45 day intensity?
+Investigate the 3rd cut in st paul 2022.  
 
 \newpage
 
@@ -47,11 +45,11 @@ Do we trust the predicted values of the NIRS for this experiment?
 
 Is the hay equation sufficient for making comparisons between HarvXtra vs. conventional alfalfa forage quality?
 
-Why is the RFV prediction so high for alfalfa? Did the hail storm in May2022 impact forage quality? Perhaps people put more leaves in the forage quality subsample then stems, causing much higher RFV.
+Why is the RFV prediction so high for alfalfa? 
 
 Why is neutral detergent digestibility so low? We need to be skeptical of RFQ so long as we are skeptical of NDFD.
 
-Why is variance so low in the NIRS prediction? Is there an issue with how data is being read in or processed causing pseudoreplication?
+Why is variance so low in the NIRS prediction? 
 
 ### Data availability
 
@@ -221,19 +219,20 @@ dat_qual %>%
 
 ```
 
-```{r}
+```{r observed vs expected}
 
 dat_qual %>% 
   dplyr::filter(stage=="all") %>% 
   dplyr::select(-c(maturity,stage,quality.category)) %>% 
   rename_all(toupper) %>% 
+  mutate(NDFD = "40-60") %>% 
   mutate(type = "expected") -> d1
 
 
 dat1 %>% 
   summarise(
     across(
-      c(CP,ADF,NDF,rfv,rfq.legume),
+      c(CP,ADF,NDF,NDFD,rfv,rfq.legume),
       mean
     )
   ) %>% 
@@ -258,6 +257,7 @@ c(
   20,
   30,
   40,
+  50,
   150,
   150
 ) -> expctd
@@ -277,6 +277,108 @@ as_tibble(cbind(nms = names(d2), t(d2))) %>%
   )
 
 ```
+
+```{r predicted ranges from Grev paper}
+read.csv(
+  "grev2017.csv"
+) -> grev
+
+grev %>% 
+  pivot_longer(
+    cols = 4:9
+    # cols = starts_with("CP"),
+  ) %>% 
+  mutate(fq_component = str_split(name,"_",simplify = T)[,1],
+         site = str_split(name,"_",simplify = T)[,2]) %>% 
+  dplyr::select(-name) %>% 
+  mutate(value = value/10) %>% 
+  group_by(fq_component,type) %>% 
+  summarise(mean=mean(value),
+            max = max(value),
+            min = min(value)) %>%
+  mutate(
+    across(
+      2:4,
+      ~format(round(.x),nsmall=0)
+    )
+  ) %>%
+  mutate(range = paste0(min,"-",max)) %>% 
+  mutate(meanrange = paste0(mean," (",range,")")) %>% 
+  dplyr::select(-c(max,min,mean,range)) %>% 
+  pivot_wider(
+    names_from = fq_component,
+    values_from = c(meanrange)
+  ) %>% 
+  rename(Type = type) %>% 
+  mutate_all(str_to_title) %>% 
+  knitr::kable(
+    caption = "Forage quality parameters reported by Grev 2017 on alfalfa stands in St Paul and Rosemount planted in spring and cut on 30 day harvest intervals over two years. Mean and (range) are presented."
+  )
+
+```
+
+
+```{r FQ observed vs grev}
+
+grev %>% 
+  pivot_longer(
+    cols = 4:9
+    # cols = starts_with("CP"),
+  ) %>% 
+  mutate(fq_component = str_split(name,"_",simplify = T)[,1],
+         site = str_split(name,"_",simplify = T)[,2]) %>% 
+  dplyr::select(-name) %>% 
+  mutate(value = value/10) %>% 
+  group_by(fq_component,type) %>% 
+  summarise(mean=round(mean(value)))  %>%
+  pivot_wider(
+    names_from = fq_component,
+    values_from = c(mean)
+  ) %>% 
+  rename(Type = type) %>% 
+  mutate_all(str_to_title) %>% 
+  mutate(source = "Grev et al. 2017")->dfgrev
+
+dat1 %>% 
+  mutate(variety = fct_recode(variety,
+                              `reduced lignin` = "HX3",
+                              `reduced lignin` = "HX4",
+                              `reduced lignin` = "HX5",
+                              conventional = "RR3",
+                              conventional = "RR4",
+                              conventional = "RR5")) %>%
+  mutate(variety = str_to_title(variety)) %>% 
+  group_by(variety) %>% 
+  rename_with(
+    .cols = c(1:8),
+    str_to_title
+  ) %>% 
+  rename(
+    RFV = rfv,
+    RFQ = rfq.legume
+  ) %>% 
+  summarise(
+    across(c(CP,ADF,NDF,NDFD,RFV,RFQ),
+           .fns=mean)
+  ) %>% 
+  mutate(
+    across(c(CP,ADF,NDF,NDFD,RFV,RFQ),
+           .fns=~round(.x,0))
+  ) %>% 
+  rename(
+    Type = Variety
+  ) %>% 
+  dplyr::select(Type,CP,NDF,NDFD) %>% 
+  mutate(source = "Observed") %>% 
+  mutate_all(as.character) %>% 
+  bind_rows(dfgrev) %>% 
+  relocate(source,.before=Type) %>% 
+  knitr::kable(
+    caption = "Forage quality comparison between Grev et al 2017 and RALLF"
+  )
+
+```
+
 
 \newpage
 
@@ -434,6 +536,7 @@ dat1 %>%
   )
 
 ```
+
 
 \newpage
 
