@@ -120,7 +120,7 @@ key3 %>%
 
 ```
 
-As seen in tables, we have missing $24+24+1 = 85$ data points. The two sets of 24 data points are for the first cut at rosemount in 2022, which have not been located as of 15Mar2023.
+As seen in tables, we have 1 missing data point
 
 \newpage
 
