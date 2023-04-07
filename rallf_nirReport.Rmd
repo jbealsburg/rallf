@@ -1,7 +1,7 @@
 ---
 title: "RALLF Forage Quality"
 subtitle: "preliminary report"
-date: "2023 February"
+date: "2023 April"
 author: "Jesse Puka-Beals"
 output:
   # word_document:
@@ -640,7 +640,21 @@ dat1 %>%
 
 # no effect from variety
 
+# why is there only 1 degree of freedom for cut?
+# it's because cut isn't treated as a factor--let's model as a factor
+
+dat1 %>% 
+  mutate(across(where(is.integer),factor)) %>% 
+  lm(
+    rfv~site*year*variety*intensity*cut,.
+  ) %>% 
+  anova() %>%
+  filter(`Pr(>F)` < 0.05)
+# after modeling cut as a factor, we observe more interactions and a main effect of variety. Moving forward, we want to determine how to treat the cut treatment. 
+
 ```
+
+
 
 \newpage
 
