@@ -1,0 +1,134 @@
+---
+title: "RALLF winter survival scores"
+date: today
+format: 
+  pdf:
+    echo: false
+    message: false
+    warning: false
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(tidyverse)
+
+read.csv("RALLF Forage and RIC Yields MASTER.xlsx - winter survival.csv",
+         skip = 9,
+         header = T) -> dat
+
+```
+
+## 22Apr2025 St Paul Notes
+
+###  General notes
+
+-   Alfalfa plants have fully broken dormancy
+
+-   Dead plants and asymmetric regrowth are obvious
+
+-   50% canopy closure makes assessing individual plants ideal
+
+### Measurement notes
+
+-   3-4 live alfalfa plants per square foot across all plots. We only had a 1 sq ft quadrat with us so did not make sense to record this measurement for each plot as we wouldn't have differences among plots. Would need a much larger quadrat (10 sq ft) to detect differences in live plants per area across stands.
+
+-   A given plot would have around 0-20 dead plants and 0-40 injured plants with about 95+% of the total plants having no damage. Doing visual estimate of percent healthy vs percent damaged would not work because all plots would be more than 95% healthy.
+
+-   Alfalfa percent cover is probably best measurement in predicting yield potential of plot.
+
+-   Winter survival score is probably best measurement for quantifying winter kill from 2024-2025 winter
+
+-   Stems density is likely too variable to be useful. One plant averaged around 20 healthy stems. One plot would be measured at 19 stems per sq ft and then remeasured again at 27 stems per sq ft.
+
+## Images
+
+![Alfalfa plant with asymetric regrowth indicating winter injury](rallf_ws_plantscore3.png)
+
+![Alfalfa plant that died over the 2024-2025 winter](rallf_ws_plantscore5.png)
+
+![alfalfa plot with no winter injury](rallf_ws_plotscore1.png)
+
+![alfalfa plot with the most winter injury in st paul on 22Apr2025](rallf_ws_plotscore4.png)
+
+# Data St Paul
+
+## Winter survival scores
+
+```{r}
+dat %>%
+  filter(site == "St. Paul") %>%
+  ggplot(aes(variety, score)) +
+  stat_summary()
+
+```
+
+-   winter survival is lower in plots with lower winter hardiness rating (HX5/RR5) vs plots with greater winter hardiness ratings (HX3, RR3)
+
+-   This check confirms winter survival scores worked
+
+```{r}
+dat %>%
+  filter(site == "St. Paul") %>%
+  ggplot(aes(schedule, score)) +
+  stat_summary() 
+```
+
+-   winter survival is lower in plots with greater harvest intensity
+
+## Cover
+
+```{r}
+dat %>%
+  filter(site == "St. Paul") %>%
+  ggplot(aes(variety, cover)) +
+  stat_summary()
+```
+
+-   alfalfa coverage is lower in plots that are less winter hardy and had less winter survival. Makes sense!
+
+-   Percent cover tells similar story with winter survival scores across variety
+
+```{r}
+dat %>%
+  filter(site == "St. Paul") %>%
+  ggplot(aes(schedule, cover)) +
+  stat_summary()
+```
+
+-   Percent cover does not detect difference between harvest schedule intensity, unlike the winter survival scores
+
+## Stem density
+
+target stem density is 55+ plants per square foot.
+
+Stem density below 39 plants per square foot is typically threshold to consider replacing stand
+
+```{r}
+dat %>%
+  filter(site == "St. Paul") %>%
+  ggplot(aes(variety, stems)) +
+  stat_summary() +
+  geom_hline(yintercept = 39,
+             linetype=2) +
+  annotate("label",
+           x = "HX3", 
+           y = 39, 
+           hjust=0,
+           label = "Stem density threshold for replacing alfalfa stand = 39", 
+           fill = "white", color = "red", label.size = 0.3)
+```
+
+-   lower stem density in the round up ready varieties vs harvextra\
+
+```{r}
+dat %>%
+  filter(site == "St. Paul") %>%
+  ggplot(aes(schedule, stems)) +
+  stat_summary() +
+  geom_hline(yintercept = 39,
+             linetype=2) 
+```
+
+-   no differences among harvest intensity

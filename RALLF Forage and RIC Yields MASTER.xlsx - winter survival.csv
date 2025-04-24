@@ -1,0 +1,106 @@
+column,description,,,,,,,
+score,"witner survival score where 1=no damage, 5=dead plant",,,,,,,
+cover,"percent alfalfa coverage over whole plot, visual assessment",,,,,,,
+stems,stem density. Number of stems per square foot,,,,,,,
+notes,averaged 3-4 plants per sq ft. Measurement taken on sq ft basis. We could find a handful of dead alfalfa plants in most plots. Stem density measurements varied dramatically. About 1 healthy plant had around 20 stems.  We want around 55+ stems per sq ft for a healthy stand. Score is probably best metric,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+year,date,site,plot,variety,schedule,score,cover,stems
+2025,,Rosemount,1101,HX4,45 day,,,
+2025,,Rosemount,1102,RR3,45 day,,,
+2025,,Rosemount,1103,HX5,45 day,,,
+2025,,Rosemount,1104,RR4,45 day,,,
+2025,,Rosemount,1105,RR5,45 day,,,
+2025,,Rosemount,1106,HX3,45 day,,,
+2025,,Rosemount,1107,RR4,35 day,,,
+2025,,Rosemount,1108,HX5,35 day,,,
+2025,,Rosemount,1109,HX4,35 day,,,
+2025,,Rosemount,1110,RR3,35 day,,,
+2025,,Rosemount,1111,RR5,35 day,,,
+2025,,Rosemount,1112,HX3,35 day,,,
+2025,,Rosemount,1201,RR5,45 day,,,
+2025,,Rosemount,1202,RR4,45 day,,,
+2025,,Rosemount,1203,RR3,45 day,,,
+2025,,Rosemount,1204,HX4,45 day,,,
+2025,,Rosemount,1205,HX5,45 day,,,
+2025,,Rosemount,1206,HX3,45 day,,,
+2025,,Rosemount,1207,HX5,35 day,,,
+2025,,Rosemount,1208,RR5,35 day,,,
+2025,,Rosemount,1209,HX3,35 day,,,
+2025,,Rosemount,1210,HX4,35 day,,,
+2025,,Rosemount,1211,RR3,35 day,,,
+2025,,Rosemount,1212,RR4,35 day,,,
+2025,,Rosemount,1301,HX4,35 day,,,
+2025,,Rosemount,1302,RR3,35 day,,,
+2025,,Rosemount,1303,RR5,35 day,,,
+2025,,Rosemount,1304,HX3,35 day,,,
+2025,,Rosemount,1305,HX5,35 day,,,
+2025,,Rosemount,1306,RR4,35 day,,,
+2025,,Rosemount,1307,RR3,45 day,,,
+2025,,Rosemount,1308,HX4,45 day,,,
+2025,,Rosemount,1309,HX3,45 day,,,
+2025,,Rosemount,1310,RR4,45 day,,,
+2025,,Rosemount,1311,RR5,45 day,,,
+2025,,Rosemount,1312,HX5,45 day,,,
+2025,,Rosemount,1401,HX4,45 day,,,
+2025,,Rosemount,1402,HX5,45 day,,,
+2025,,Rosemount,1403,RR4,45 day,,,
+2025,,Rosemount,1404,RR3,45 day,,,
+2025,,Rosemount,1405,HX3,45 day,,,
+2025,,Rosemount,1406,RR5,45 day,,,
+2025,,Rosemount,1407,RR3,35 day,,,
+2025,,Rosemount,1408,HX4,35 day,,,
+2025,,Rosemount,1409,RR4,35 day,,,
+2025,,Rosemount,1410,HX3,35 day,,,
+2025,,Rosemount,1411,RR5,35 day,,,
+2025,,Rosemount,1412,HX5,35 day,,,
+2025,2025-04-22,St. Paul,2101,HX3,45 day,1,60,19
+2025,2025-04-22,St. Paul,2102,RR5,45 day,2,50,29
+2025,2025-04-22,St. Paul,2103,RR3,45 day,1,65,19
+2025,2025-04-22,St. Paul,2104,HX5,45 day,2,50,22
+2025,2025-04-22,St. Paul,2105,HX4,45 day,1,70,29
+2025,2025-04-22,St. Paul,2106,RR4,45 day,1,60,16
+2025,2025-04-22,St. Paul,2107,RR3,35 day,1,75,27
+2025,2025-04-22,St. Paul,2108,HX3,35 day,1,65,35
+2025,2025-04-22,St. Paul,2109,HX4,35 day,2,60,31
+2025,2025-04-22,St. Paul,2110,HX5,35 day,3,50,19
+2025,2025-04-22,St. Paul,2111,RR4,35 day,2,60,19
+2025,2025-04-22,St. Paul,2112,RR5,35 day,2,60,17
+2025,2025-04-22,St. Paul,2201,HX4,45 day,1,70,31
+2025,2025-04-22,St. Paul,2202,RR3,45 day,1,70,24
+2025,2025-04-22,St. Paul,2203,RR4,45 day,1,70,16
+2025,2025-04-22,St. Paul,2204,HX5,45 day,2,50,13
+2025,2025-04-22,St. Paul,2205,HX3,45 day,1,65,24
+2025,2025-04-22,St. Paul,2206,RR5,45 day,1,65,13
+2025,2025-04-22,St. Paul,2207,HX4,35 day,1,70,29
+2025,2025-04-22,St. Paul,2208,HX5,35 day,2,50,16
+2025,2025-04-22,St. Paul,2209,RR3,35 day,2,60,20
+2025,2025-04-22,St. Paul,2210,RR4,35 day,3,50,24
+2025,2025-04-22,St. Paul,2211,RR5,35 day,3,50,16
+2025,2025-04-22,St. Paul,2212,HX3,35 day,1,70,41
+2025,2025-04-22,St. Paul,2301,HX4,35 day,1,70,38
+2025,2025-04-22,St. Paul,2302,HX5,35 day,2,60,39
+2025,2025-04-22,St. Paul,2303,HX3,35 day,2,60,28
+2025,2025-04-22,St. Paul,2304,RR5,35 day,3.5,45,21
+2025,2025-04-22,St. Paul,2305,RR4,35 day,2,60,35
+2025,2025-04-22,St. Paul,2306,RR3,35 day,1,70,23
+2025,2025-04-22,St. Paul,2307,HX4,45 day,1,70,38
+2025,2025-04-22,St. Paul,2308,RR4,45 day,1,60,51
+2025,2025-04-22,St. Paul,2309,HX3,45 day,1,70,32
+2025,2025-04-22,St. Paul,2310,RR3,45 day,1,60,31
+2025,2025-04-22,St. Paul,2311,RR5,45 day,2,55,23
+2025,2025-04-22,St. Paul,2312,HX5,45 day,1,65,29
+2025,2025-04-22,St. Paul,2401,RR5,45 day,1,70,15
+2025,2025-04-22,St. Paul,2402,RR3,45 day,1,70,21
+2025,2025-04-22,St. Paul,2403,HX4,45 day,1,70,30
+2025,2025-04-22,St. Paul,2404,HX5,45 day,2,50,34
+2025,2025-04-22,St. Paul,2405,RR4,45 day,2,60,14
+2025,2025-04-22,St. Paul,2406,HX3,45 day,1,70,25
+2025,2025-04-22,St. Paul,2407,HX3,35 day,1,70,29
+2025,2025-04-22,St. Paul,2408,RR3,35 day,2,65,25
+2025,2025-04-22,St. Paul,2409,HX4,35 day,1,70,23
+2025,2025-04-22,St. Paul,2410,RR5,35 day,3,60,16
+2025,2025-04-22,St. Paul,2411,RR4,35 day,2,70,22
+2025,2025-04-22,St. Paul,2412,HX5,35 day,1,70,34
