@@ -120,7 +120,7 @@ dat %>%
            fill = "white", color = "red", label.size = 0.3)
 ```
 
--   lower stem density in the round up ready varieties vs harvextra\
+-   harvextra seems to be doing a bit better than round up ready\
 
 ```{r}
 dat %>%
@@ -131,4 +131,4 @@ dat %>%
              linetype=2) 
 ```
 
--   no differences among harvest intensity
+-   no differences between harvest intensity
